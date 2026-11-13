@@ -11,6 +11,8 @@ on:
       - 'flutter/windows/runner/Runner.rc'
       - 'libs/portable/**'
       - 'scripts/**'
+      - '!scripts/auditar_segredos.py'
+      - '!scripts/upstream_rustdesk_1_5_3_blobs.json'
       - 'assets/**'
 
 permissions:
