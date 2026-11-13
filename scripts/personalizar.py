@@ -124,6 +124,10 @@ def apply(repo):
     (repo/'res').mkdir(parents=True, exist_ok=True)
     shutil.copy2(ASSETS/'icon.png',repo/'res/icon.png')
     print('[OK] Icone res/icon.png')
+    # Tambem substitui o icone nativo (Rust/Windows) e o icone da bandeja.
+    shutil.copy2(ASSETS/'app_icon.ico',repo/'res/icon.ico')
+    shutil.copy2(ASSETS/'app_icon.ico',repo/'res/tray-icon.ico')
+    print('[OK] Icones nativos ZypherDesk no executavel e na bandeja')
     print('Personalizacao aplicada ao codigo RustDesk 1.5.3. Compilacao ainda necessaria.')
 
 if __name__=='__main__':
