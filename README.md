@@ -1,3 +1,24 @@
+# ZypherDesk — Zypher Security
+
+**ZypherDesk** é uma personalização open-source de suporte remoto para Windows, baseada no projeto RustDesk 1.5.3 (licença GNU AGPL-3.0). A identidade visual, os ajustes de interface e o fluxo de build foram adaptados pela Zypher Security.
+
+- **Site:** https://desk.zyphersecurity.com.br
+- **Privacidade:** https://desk.zyphersecurity.com.br/privacidade (o conteúdo publicado deve ser verificado)
+- **Contato:** contato@zyphersecurity.com.br
+- **Build portátil:** [GitHub Actions — ZypherDesk](.github/workflows/build-zypherdesk.yml)
+- **Code signing policy:** [Política de assinatura digital](CODE_SIGNING_POLICY.md)
+- **Preparação SignPath Foundation:** [Critérios e candidatura pendentes](SIGNPATH_PREPARACAO.md)
+- **Comunicação de vulnerabilidades:** [Security policy](SECURITY.md)
+- **Licença e atribuições:** [GNU AGPL-3.0 e avisos de terceiros](LICENCAS_E_AVISOS.txt)
+
+> **Assinatura digital pendente:** este projeto ainda não foi aprovado nem assinado pela SignPath Foundation. A publicação no GitHub não constitui certificação de segurança nem garante ausência de alertas do SmartScreen.
+
+---
+
+## Projeto de origem e atribuição
+
+O conteúdo abaixo documenta o RustDesk original, sobre o qual esta variante foi desenvolvida. Os créditos e direitos dos respectivos autores permanecem válidos.
+
 <p align="center">
   <img src="res/logo-header.svg" alt="RustDesk - Your remote desktop"><br>
   <a href="#raw-steps-to-build">Build</a> •
