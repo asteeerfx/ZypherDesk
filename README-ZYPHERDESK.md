@@ -38,3 +38,8 @@ O workflow depende de `.github/workflows/bridge.yml`, `.github/workflows/third-p
 - Não distribua a clientes antes de testar porta, tela/controle, segurança, consentimento, instalação/remoção e uso multi-monitor.
 
 Fonte de referência do pipeline oficial: <https://github.com/rustdesk/rustdesk/blob/1.5.3/.github/workflows/flutter-build.yml>
+
+
+## Code signing policy — assinatura digital
+
+O ZypherDesk **ainda não possui assinatura SignPath Foundation**. A avaliação gratuita depende de candidatura e aprovação. Veja a [Code signing policy](CODE_SIGNING_POLICY.md), o [checklist de preparação](SIGNPATH_PREPARACAO.md) e a [política de segurança](SECURITY.md). Não compartilhe binários como certificados antes da aprovação e da assinatura real.
