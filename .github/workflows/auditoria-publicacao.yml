@@ -26,12 +26,14 @@ jobs:
         shell: bash
         run: |
           set -uo pipefail
+          set +e  # gitleaks pode retornar 1 quando encontrar dados suspeitos
           docker run --rm \
             -v "$PWD:/workspace" -w /workspace \
             ghcr.io/gitleaks/gitleaks:v8.24.2 \
             git --redact --log-opts="--all" --log-level error \
               --report-format json --report-path /workspace/.gitleaks-audit-tmp.json /workspace
           status=$?
+          set -e
           python3 - <<'PY'
           import collections, json, os
           from pathlib import Path
