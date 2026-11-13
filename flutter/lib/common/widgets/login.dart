@@ -702,6 +702,8 @@ Future<bool?>? _activeLoginDialog;
 
 // call this directly
 Future<bool?> loginDialog() {
+  // ZypherDesk: nao apresentar o dialogo de conta em caminhos secundarios.
+  if (bind.isDisableAccount()) return Future<bool?>.value(false);
   final activeDialog = _activeLoginDialog;
   if (activeDialog != null) {
     return activeDialog;

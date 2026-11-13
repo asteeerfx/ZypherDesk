@@ -17,6 +17,10 @@ permissions:
   contents: read
   actions: write
 
+concurrency:
+  group: zypherdesk-portable-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   bridge:
     # Reaproveita o gerador de bindings original do RustDesk 1.5.3.

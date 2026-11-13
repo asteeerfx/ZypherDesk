@@ -28,6 +28,17 @@ CHECKS = {
     ],
     "flutter/lib/desktop/pages/desktop_home_page.dart": [
         'zypher_security_watermark.png',
+        'width: isIncomingOnly ? 280.0 : 260.0,',
+    ],
+    "src/flutter_ffi.rs": [
+        'pub fn is_disable_account() -> SyncReturn<bool> {',
+        'SyncReturn(true)',
+    ],
+    "flutter/lib/common/widgets/login.dart": [
+        'if (bind.isDisableAccount()) return Future<bool?>.value(false);',
+    ],
+    "flutter/lib/desktop/pages/connection_page.dart": [
+        'const url = "https://desk.zyphersecurity.com.br";',
     ],
 }
 IMAGES = [

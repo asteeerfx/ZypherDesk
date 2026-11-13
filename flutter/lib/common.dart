@@ -3851,16 +3851,16 @@ class _LogoState extends State<_Logo> {
             },
           );
           return Container(
-            constraints: const BoxConstraints(maxWidth: 300, maxHeight: 70),
+            constraints: const BoxConstraints(maxWidth: 300, maxHeight: 110),
             decoration: Theme.of(context).brightness == Brightness.dark
                 ? BoxDecoration(
                     color: const Color(0xFFE2F0F5),
                     borderRadius: BorderRadius.circular(8),
                   )
                 : null,
-            padding: const EdgeInsets.all(4),
+            padding: const EdgeInsets.all(3),
             child: image,
-          ).marginOnly(left: 12, right: 12, top: 12);
+          ).marginOnly(left: 5, right: 5, top: 12);
         }
         return const Offstage();
       },
