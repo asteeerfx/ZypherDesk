@@ -29,7 +29,7 @@ native-windows-gui = {version = "1.0", default-features = false, features = ["an
 [package.metadata.winres]
 LegalCopyright = "© 2026 Zypher Security. Baseado no RustDesk (AGPL-3.0); créditos originais preservados."
 CompanyName = "Zypher Security"
-Comments = "ZypherDesk - https://desk.zyphersecurity.com.br - Baseado no projeto RustDesk AGPL-3.0"
+Comments = "Suporte remoto Zypher Security - https://desk.zyphersecurity.com.br"
 ProductName = "ZypherDesk"
 OriginalFilename = "ZypherDesk-Portable-1.5.3-x64.exe"
 FileDescription = "ZypherDesk - Suporte Remoto"
