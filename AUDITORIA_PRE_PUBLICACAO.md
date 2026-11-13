@@ -21,3 +21,9 @@
 - [ ] Executar novamente o Gitleaks após corrigir problemas e só então considerar a publicação.
 
 **Observação:** nenhuma assinatura digital foi aplicada ou aprovada. O status final de auditoria não pode ser dado como seguro apenas com esta análise.
+
+## Triagem detalhada após comparação com a versão upstream (13/11/2026)
+
+**90 de 91 alertas** são de 44 arquivos cujos hashes SHA de blob coincidem exatamente com o código-fonte público RustDesk 1.5.3, incluindo `src/custom_server.rs` e as traduções `src/lang/*.rs`. Isso significa que esses trechos não foram introduzidos pela Zypher Security. O **alerta restante** (`generic-api-key`) está na linha 103 de `.github/workflows/build-zypherdesk.yml` e corresponde exatamente ao comando PowerShell que determina a pasta do Flutter (`$flutterRoot = Split-Path -Parent (Split-Path -Parent $flutterCmd)`), sem credencial.
+
+A auditoria atualizada compara **cada detecção contra o SHA do arquivo no commit histórico correspondente** e valida a linha segura do Flutter. Novos alertas, arquivos alterados ou outro padrão continuarão bloqueando o workflow. Uma execução verde significa somente ausência de novos padrões nesse teste, **não garantia absoluta de inexistência de segredos**. Antes de publicar, a equipe responsável ainda precisa revisar logs, artefatos e histórico de GitHub Actions, permissões de imagens e política de privacidade.
