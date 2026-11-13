@@ -12,7 +12,10 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 RULE = "generic-api-key"
 WORKFLOW = ".github/workflows/build-zypherdesk.yml"
-SAFE_LINE = "$flutterRoot = Split-Path -Parent (Split-Path -Parent $flutterCmd)"
+SAFE_LINES = {
+    "$flutterRoot = Split-Path -Parent (Split-Path -Parent $flutterCmd)",
+    "prefix-key: zypherdesk-x64",
+}
 BASELINE = json.loads((ROOT / "scripts" / "upstream_rustdesk_1_5_3_blobs.json").read_text(encoding="utf-8"))["file_blob_sha"]
 
 def git(*args: str) -> str | None:
@@ -38,8 +41,8 @@ def categorize(finding: dict) -> str:
         if content is None:
             return "commit_inacessivel"
         lines = content.splitlines()
-        if 1 <= line_number <= len(lines) and lines[line_number - 1].strip() == SAFE_LINE:
-            return "comando_flutter_sem_credencial"
+        if 1 <= line_number <= len(lines) and lines[line_number - 1].strip() in SAFE_LINES:
+            return "configuracao_de_build_sem_credencial"
     return "novo_ou_inconclusivo"
 
 def main() -> int:
@@ -51,11 +54,11 @@ def main() -> int:
 
     checked = [(f, categorize(f)) for f in findings]
     counts = collections.Counter(category for _f, category in checked)
-    bad = [(f, c) for f, c in checked if c not in {"arquivo_identico_ao_upstream", "comando_flutter_sem_credencial"}]
+    bad = [(f, c) for f, c in checked if c not in {"arquivo_identico_ao_upstream", "configuracao_de_build_sem_credencial"}]
 
     print(f"Potenciais achados: {len(findings)}.")
     print(f"Codigo ORIGINAL identico ao RustDesk 1.5.3: {counts['arquivo_identico_ao_upstream']}.")
-    print(f"Comando local de caminho do Flutter sem credencial: {counts['comando_flutter_sem_credencial']}.")
+    print(f"Configuração de build sem credencial: {counts['configuracao_de_build_sem_credencial']}.")
     print(f"Alertas NOVOS ou nao classificados: {len(bad)}.")
     if bad:
         for finding, category in bad[:25]:
@@ -65,7 +68,7 @@ def main() -> int:
     if summary:
         with open(summary, "a", encoding="utf-8") as f:
             f.write("### Auditoria de segredos — criterio estrito\\n")
-            f.write(f"Alertas: **{len(findings)}**. Idênticos ao upstream RustDesk 1.5.3: **{counts['arquivo_identico_ao_upstream']}**. Linha Flutter classificada sem segredo: **{counts['comando_flutter_sem_credencial']}**. Pendentes: **{len(bad)}**.\\n")
+            f.write(f"Alertas: **{len(findings)}**. Idênticos ao upstream RustDesk 1.5.3: **{counts['arquivo_identico_ao_upstream']}**. Configuração de build classificada sem segredo: **{counts['configuracao_de_build_sem_credencial']}**. Pendentes: **{len(bad)}**.\\n")
             f.write("A validacao compara o SHA de cada blob no commit exato que disparou o alerta. Mudancas em qualquer arquivo/commit ou novas regras **nao serao ignoradas**. Ainda e necessaria revisao humana de historico, logs e privacidade antes de tornar o repositorio publico.\\n")
     if bad:
         print("Reprovado: revisar os alertas novos sem publicar valores de credenciais.")
