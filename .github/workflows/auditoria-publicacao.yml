@@ -55,8 +55,9 @@ jobs:
                   safe_file=file.replace('|','/').replace('\\n',' ').replace('\\r',' ')
                   lines.append(f'| `{safe_file}` | `{rule}` | {count} |')
               with open(os.environ.get('GITHUB_STEP_SUMMARY','/dev/null'),'a') as out:
-                  out.write('\\n'.join(lines)+'\\n')
+                  out.write('\n'.join(lines)+'\n')
               print(f'Potenciais segredos identificados: {len(data)}. Detalhes sanitizados no resumo do job.')
+              print('\n'.join(lines[:95]))
           finally:
               path.unlink(missing_ok=True)
           PY
