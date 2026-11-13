@@ -22,15 +22,49 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Gitleaks - vasculhar todos os commits sem mostrar valores
+      - name: Gitleaks - analisar todos os commits com resumo sanitizado
         shell: bash
         run: |
-          set -euo pipefail
+          set -uo pipefail
           docker run --rm \
             -v "$PWD:/workspace" -w /workspace \
             ghcr.io/gitleaks/gitleaks:v8.24.2 \
-            git --redact --log-opts="--all" --log-level warn /workspace
-          echo "Triagem de segredos automatica concluida. Revise o historico, os logs e os falsos positivos manualmente antes de publicar."
+            git --redact --log-opts="--all" --log-level error \
+              --report-format json --report-path /workspace/.gitleaks-audit-tmp.json /workspace
+          status=$?
+          python3 - <<'PY'
+          import collections, json, os
+          from pathlib import Path
+          path=Path('.gitleaks-audit-tmp.json')
+          try:
+              data=json.loads(path.read_text()) if path.exists() else []
+              if data is None:
+                  data=[]
+              counts=collections.Counter((str(x.get('File','')), str(x.get('RuleID',''))) for x in data)
+              grouped=collections.Counter(x.get('RuleID','unknown') for x in data)
+              lines=['### Auditoria Gitleaks — resumo seguro',
+                     f'**Ocorrências potenciais:** {len(data)}',
+                     'Nenhum valor secreto é exibido neste resumo.',
+                     '',
+                     '| Regra | Ocorrências |',
+                     '|---|---:|']
+              lines += [f'| `{key}` | {value} |' for key, value in grouped.most_common(25)]
+              lines += ['', '**Arquivos com achados (sem conteúdo):**',
+                        '', '| Caminho | Regra | Quantidade |', '|---|---|---:|']
+              for (file, rule), count in counts.most_common(60):
+                  safe_file=file.replace('|','/').replace('\\n',' ').replace('\\r',' ')
+                  lines.append(f'| `{safe_file}` | `{rule}` | {count} |')
+              with open(os.environ.get('GITHUB_STEP_SUMMARY','/dev/null'),'a') as out:
+                  out.write('\\n'.join(lines)+'\\n')
+              print(f'Potenciais segredos identificados: {len(data)}. Detalhes sanitizados no resumo do job.')
+          finally:
+              path.unlink(missing_ok=True)
+          PY
+          if [ "$status" -ne 0 ]; then
+            echo "Gitleaks nao aprovou a auditoria; revisar e classificar os achados."
+            exit 1
+          fi
+          echo "Triagem de segredos automatica concluida; ainda exige revisao manual."
 
       - name: Aviso sobre alcance da verificacao
         if: always()
