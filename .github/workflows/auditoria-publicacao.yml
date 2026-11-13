@@ -26,6 +26,7 @@ jobs:
         shell: bash
         run: |
           set -uo pipefail
+          set +e  # The scanner returns 1 when it finds potential matches.
           trap 'rm -f .gitleaks-audit-tmp.json' EXIT
           docker run --rm \
             -v "$PWD:/workspace" -w /workspace \
