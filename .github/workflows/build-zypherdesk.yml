@@ -51,6 +51,12 @@ jobs:
       - name: Aplicar identidade oficial Zypher Security, visual e aprovação manual
         run: python scripts/personalizar.py .
 
+      - name: Validar logo, metadados e aba Sobre da Zypher
+        shell: pwsh
+        run: |
+          python scripts/validar_branding.py
+          if ($LASTEXITCODE -ne 0) { throw 'Branding incompleto; build interrompido' }
+
       - name: Restaurar bindings Flutter/Rust
         uses: actions/download-artifact@v4
         with:
@@ -139,6 +145,18 @@ jobs:
           test -f target/release/rustdesk-portable-packer.exe
           mkdir -p saida
           cp target/release/rustdesk-portable-packer.exe saida/ZypherDesk-Portable-1.5.3-x64.exe
+
+      - name: Conferir propriedades Windows do executável portátil
+        shell: pwsh
+        run: |
+          $exe = Join-Path (Get-Location) 'saida/ZypherDesk-Portable-1.5.3-x64.exe'
+          if (-not (Test-Path $exe)) { throw 'EXE portátil não foi criado' }
+          $info = (Get-Item $exe).VersionInfo
+          Write-Host "Produto: $($info.ProductName)"
+          Write-Host "Descrição: $($info.FileDescription)"
+          Write-Host "Empresa: $($info.CompanyName)"
+          if ($info.ProductName -ne 'ZypherDesk') { throw 'Metadados do EXE: ProductName inesperado' }
+          if ($info.FileDescription -ne 'ZypherDesk - Suporte Remoto') { throw 'Metadados do EXE: FileDescription inesperada' }
 
       - name: Publicar ZIP com o executável portátil
         uses: actions/upload-artifact@v4
