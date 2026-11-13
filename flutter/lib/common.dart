@@ -249,16 +249,16 @@ class MyTheme {
   MyTheme._();
 
   static const Color grayBg = Color(0xFFF2F5F7);
-  static const Color accent = Color(0xFF0E8AA6);
-  static const Color accent50 = Color(0x770E8AA6);
+  static const Color accent = Color(0xFF0A7089);
+  static const Color accent50 = Color(0x770A7089);
   static const Color accent80 = Color(0xFF0A7891);
   static const Color canvasColor = Color(0xFF212121);
   static const Color border = Color(0xFFCCCCCC);
-  static const Color idColor = Color(0xFF00B6F0);
+  static const Color idColor = Color(0xFF0A7089);
   static const Color darkGray = Color.fromARGB(255, 148, 148, 148);
   static const Color cmIdColor = Color(0xFF21790B);
   static const Color dark = Colors.black87;
-  static const Color button = Color(0xFF2C8CFF);
+  static const Color button = Color(0xFF0A7089);
   static const Color hoverBorder = Color(0xFF999999);
 
   // ListTile
@@ -454,7 +454,7 @@ class MyTheme {
         style:
             MenuStyle(backgroundColor: MaterialStatePropertyAll(Color(0xFFF2F5F7)))),
     colorScheme: ColorScheme.light(
-        primary: Color(0xFF0E8AA6), secondary: accent, background: Color(0xFFD7E0E5),
+        primary: Color(0xFF0A7089), secondary: accent, background: Color(0xFFD7E0E5),
         surface: Color(0xFFF2F5F7), onSurface: Color(0xFF183243),
         onBackground: Color(0xFF183243), onPrimary: Colors.white),
     popupMenuTheme: PopupMenuThemeData(
