@@ -44,6 +44,9 @@ jobs:
                   data=[]
               counts=collections.Counter((str(x.get('File','')), str(x.get('RuleID',''))) for x in data)
               grouped=collections.Counter(x.get('RuleID','unknown') for x in data)
+              for finding in data:
+                  if finding.get('File') == '.github/workflows/build-zypherdesk.yml':
+                      print(f"Workflow com alerta em linha {finding.get('StartLine', '?')}; regra {finding.get('RuleID', '?')}; sem exibir conteúdo.")
               lines=['### Auditoria Gitleaks — resumo seguro',
                      f'**Ocorrências potenciais:** {len(data)}',
                      'Nenhum valor secreto é exibido neste resumo.',
