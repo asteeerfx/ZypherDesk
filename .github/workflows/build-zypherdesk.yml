@@ -62,6 +62,9 @@ jobs:
           submodules: recursive
           persist-credentials: false
 
+      - name: Preparar geração dos ícones e da nova logomarca
+        run: python -m pip install "Pillow>=10,<13"
+
       - name: Aplicar identidade oficial Zypher Security, visual e aprovação manual
         run: python scripts/personalizar.py .
 

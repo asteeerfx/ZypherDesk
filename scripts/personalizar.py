@@ -4,6 +4,7 @@ Preserves AGPL notices and network/auth protocol; requires customer click approv
 """
 from pathlib import Path
 import argparse, shutil
+from PIL import Image
 
 ROOT_PACKAGE = Path(__file__).resolve().parents[1]
 ASSETS = ROOT_PACKAGE / 'assets'
@@ -106,6 +107,25 @@ def apply(repo):
     );
   }''',
        'Marca d agua no painel central')
+
+    # Nova identidade: icone simbolo separado e logomarca horizontal sem fundo.
+    # Gerar ICO com tamanhos Windows, PNG para Flutter e res nas pastas originais.
+    source_icon = ASSETS / 'zypher_icon_master.png'
+    source_logo = ASSETS / 'zypher_logo_master.png'
+    for source_file in (source_icon, source_logo):
+        if not source_file.is_file():
+            raise RuntimeError(f'Falta a imagem oficial: {source_file}')
+    with Image.open(source_icon) as original:
+        icon = original.convert('RGBA').resize((256, 256), Image.Resampling.LANCZOS)
+        icon.save(ASSETS / 'icon.png', format='PNG', optimize=True)
+        icon.save(ASSETS / 'app_icon.ico', format='ICO', sizes=[
+            (16,16), (24,24), (32,32), (48,48), (64,64), (128,128), (256,256)
+        ])
+    with Image.open(source_logo) as original:
+        logo = original.convert('RGBA')
+        for name in ('logo.png', 'logo_light.png', 'logo_dark.png'):
+            logo.save(ASSETS / name, format='PNG', optimize=True)
+    print('[OK] Icone Zypher e logomarca horizontal atualizados.')
 
     copied={
         'icon.png': 'flutter/assets/icon.png',

@@ -2,6 +2,7 @@
 """Verifica marca e metadados do ZypherDesk antes da compilacao longa."""
 from pathlib import Path
 import sys
+from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 CHECKS = {
@@ -35,7 +36,7 @@ CHECKS = {
     ],
     "flutter/lib/desktop/pages/desktop_home_page.dart": [
         'zypher_security_watermark.png',
-        'width: isIncomingOnly ? 280.0 : 260.0,',
+        'width: isIncomingOnly ? 280.0 : 300.0,',
     ],
     "src/flutter_ffi.rs": [
         'pub fn is_disable_account() -> SyncReturn<bool> {',
@@ -49,6 +50,8 @@ CHECKS = {
     ],
 }
 IMAGES = [
+    "assets/zypher_icon_master.png",
+    "assets/zypher_logo_master.png",
     "assets/app_icon.ico",
     "assets/icon.png",
     "assets/icon.svg",
@@ -71,6 +74,18 @@ for rel, snippets in CHECKS.items():
     for snippet in snippets:
         if snippet not in data:
             errors.append(f"Marca ausente em {rel}: {snippet}")
+# Nao aceitar silenciosamente o logotipo antigo.
+try:
+    with Image.open(ROOT / 'assets/zypher_logo_master.png') as master:
+        with Image.open(ROOT / 'flutter/assets/logo.png') as applied:
+            if master.convert('RGBA').tobytes() != applied.convert('RGBA').tobytes():
+                errors.append('Logomarca Flutter difere do segundo arquivo fornecido.')
+    with Image.open(ROOT / 'assets/zypher_icon_master.png') as symbol:
+        if min(symbol.size) < 128:
+            errors.append('Icone Zypher de resolucao insuficiente.')
+except Exception as e:
+    errors.append(f'Erro ao validar as imagens oficiais: {e}')
+
 if errors:
     for error in errors:
         print(f"[ERRO] {error}")
