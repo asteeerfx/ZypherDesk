@@ -167,10 +167,10 @@ class ColorThemeExtension extends ThemeExtension<ColorThemeExtension> {
   final Color? divider;
 
   static final light = ColorThemeExtension(
-    border: Color(0xFFCCCCCC),
-    border2: Color(0xFFBBBBBB),
+    border: Color(0xFFB7C4CC),
+    border2: Color(0xFFB7C4CC),
     border3: Colors.black26,
-    highlight: Color(0xFFE5E5E5),
+    highlight: Color(0xFFCBD8DF),
     drag_indicator: Colors.grey[800],
     shadow: Colors.black,
     errorBannerBg: Color(0xFFFDEEEB),
@@ -248,10 +248,10 @@ class ColorThemeExtension extends ThemeExtension<ColorThemeExtension> {
 class MyTheme {
   MyTheme._();
 
-  static const Color grayBg = Color(0xFFEFEFF2);
-  static const Color accent = Color(0xFF00A4B3);
-  static const Color accent50 = Color(0x7700A4B3);
-  static const Color accent80 = Color(0xAA00A4B3);
+  static const Color grayBg = Color(0xFFF2F5F7);
+  static const Color accent = Color(0xFF0E8AA6);
+  static const Color accent50 = Color(0x770E8AA6);
+  static const Color accent80 = Color(0xFF0A7891);
   static const Color canvasColor = Color(0xFF212121);
   static const Color border = Color(0xFFCCCCCC);
   static const Color idColor = Color(0xFF00B6F0);
@@ -373,9 +373,9 @@ class MyTheme {
     // https://stackoverflow.com/questions/77537315/after-upgrading-to-flutter-3-16-the-app-bar-background-color-button-size-and
     useMaterial3: false,
     brightness: Brightness.light,
-    hoverColor: Color.fromARGB(255, 224, 224, 224),
-    scaffoldBackgroundColor: Colors.white,
-    dialogBackgroundColor: Colors.white,
+    hoverColor: Color(0xFFCBD8DF),
+    scaffoldBackgroundColor: Color(0xFFDDE4E8),
+    dialogBackgroundColor: Color(0xFFF2F5F7),
     appBarTheme: AppBarTheme(
       shadowColor: Colors.transparent,
     ),
@@ -392,26 +392,27 @@ class MyTheme {
     scrollbarTheme: scrollbarTheme,
     inputDecorationTheme: isDesktop
         ? InputDecorationTheme(
-            fillColor: grayBg,
+            fillColor: Color(0xFFF2F5F7),
             filled: true,
             isDense: true,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: Color(0xFFB7C4CC)),
             ),
           )
         : null,
     textTheme: const TextTheme(
-        titleLarge: TextStyle(fontSize: 19, color: Colors.black87),
-        titleSmall: TextStyle(fontSize: 14, color: Colors.black87),
-        bodySmall: TextStyle(fontSize: 12, color: Colors.black87, height: 1.25),
+        titleLarge: TextStyle(fontSize: 19, color: Color(0xFF183243)), 
+        titleSmall: TextStyle(fontSize: 14, color: Color(0xFF183243)), 
+        bodySmall: TextStyle(fontSize: 12, color: Color(0xFF35505F), height: 1.25),
         bodyMedium:
-            TextStyle(fontSize: 14, color: Colors.black87, height: 1.25),
-        labelLarge: TextStyle(fontSize: 16.0, color: MyTheme.accent80)),
+            TextStyle(fontSize: 14, color: Color(0xFF183243), height: 1.25),
+        labelLarge: TextStyle(fontSize: 16.0, color: Color(0xFF0A7891))),
     cardColor: grayBg,
-    hintColor: Color(0xFFAAAAAA),
+    hintColor: Color(0xFF46606F),
     visualDensity: VisualDensity.adaptivePlatformDensity,
     tabBarTheme: const TabBarTheme(
-      labelColor: Colors.black87,
+      labelColor: Color(0xFF183243),
     ),
     tooltipTheme: tooltipTheme(),
     splashColor: (isDesktop || isWebDesktop) ? Colors.transparent : null,
@@ -430,6 +431,7 @@ class MyTheme {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: MyTheme.accent,
+        foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
@@ -450,15 +452,17 @@ class MyTheme {
     listTileTheme: listTileTheme,
     menuBarTheme: MenuBarThemeData(
         style:
-            MenuStyle(backgroundColor: MaterialStatePropertyAll(Colors.white))),
+            MenuStyle(backgroundColor: MaterialStatePropertyAll(Color(0xFFF2F5F7)))),
     colorScheme: ColorScheme.light(
-        primary: Colors.blue, secondary: accent, background: grayBg),
+        primary: Color(0xFF0E8AA6), secondary: accent, background: Color(0xFFD7E0E5),
+        surface: Color(0xFFF2F5F7), onSurface: Color(0xFF183243),
+        onBackground: Color(0xFF183243), onPrimary: Colors.white),
     popupMenuTheme: PopupMenuThemeData(
-        color: Colors.white,
+        color: Color(0xFFF2F5F7),
         shape: RoundedRectangleBorder(
           side: BorderSide(
               color: (isDesktop || isWebDesktop)
-                  ? Color(0xFFECECEC)
+                  ? Color(0xFFB7C4CC)
                   : Colors.transparent),
           borderRadius: BorderRadius.all(Radius.circular(8.0)),
         )),
@@ -578,8 +582,8 @@ class MyTheme {
 
   static ThemeMode getThemeModePreference() {
     final preference = bind.mainGetLocalOption(key: kCommConfKeyTheme);
-    // O padrao visual do ZypherDesk e azul-escuro; uma escolha explicita 'light' e respeitada.
-    if (preference.isEmpty || preference == 'system') return ThemeMode.dark;
+    // ZypherDesk: padrão cinza-gelo legível; opções explícitas do usuário continuam disponíveis.
+    if (preference.isEmpty || preference == 'system') return ThemeMode.light;
     return themeModeFromString(preference);
   }
 

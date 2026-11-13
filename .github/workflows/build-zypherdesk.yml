@@ -172,10 +172,18 @@ jobs:
           if ($info.ProductName -ne 'ZypherDesk') { throw 'Metadados do EXE: ProductName inesperado' }
           if ($info.FileDescription -ne 'ZypherDesk - Suporte Remoto') { throw 'Metadados do EXE: FileDescription inesperada' }
 
+      - name: Incluir licença e avisos no pacote portátil
+        shell: pwsh
+        run: |
+          if (-not (Test-Path '.\\LICENCAS_E_AVISOS.txt')) { throw 'Avisos legais ausentes' }
+          if (-not (Test-Path '.\\LICENCE')) { throw 'Licença AGPL-3.0 ausente' }
+          Copy-Item '.\\LICENCAS_E_AVISOS.txt' '.\\saida\\LICENCAS_E_AVISOS.txt' -Force
+          Copy-Item '.\\LICENCE' '.\\saida\\LICENCA_AGPL-3.0.txt' -Force
+
       - name: Publicar ZIP com o executável portátil
         uses: actions/upload-artifact@v4
         with:
           name: ZypherDesk-Portable-1.5.3-Windows-x64
-          path: saida/ZypherDesk-Portable-1.5.3-x64.exe
+          path: saida/
           if-no-files-found: error
           retention-days: 30

@@ -18,13 +18,20 @@ CHECKS = {
     "flutter/lib/common.dart": [
         'Desenvolvido por ZypherSecurity',
         '0xFF09283D',
+        'Color(0xFFDDE4E8)',
+        'if (preference.isEmpty || preference == \'system\') return ThemeMode.light;',
         'https://desk.zyphersecurity.com.br',
     ],
     "flutter/lib/desktop/pages/desktop_setting_page.dart": [
         'Sobre o ZypherDesk',
         'Declaração de privacidade',
-        'https://desk.zyphersecurity.com.br',
+        'https://desk.zyphersecurity.com.br/privacidade',
+        'Licenciamento GNU AGPL-3.0',
         'contato@zyphersecurity.com.br',
+    ],
+    "LICENCAS_E_AVISOS.txt": [
+        "GNU AGPL-3.0",
+        "RustDesk",
     ],
     "flutter/lib/desktop/pages/desktop_home_page.dart": [
         'zypher_security_watermark.png',

@@ -2573,20 +2573,17 @@ class _AboutState extends State<_About> {
   @override
   Widget build(BuildContext context) {
     return futureBuilder(future: () async {
-      final license = await bind.mainGetLicense();
       final version = await bind.mainGetVersion();
       final buildDate = await bind.mainGetBuildDate();
       final fingerprint = await bind.mainGetFingerprint();
       final myId = await bind.mainGetMyId();
       return {
-        'license': license,
         'version': version,
         'buildDate': buildDate,
         'fingerprint': fingerprint,
         'myId': myId
       };
     }(), hasData: (data) {
-      final license = data['license'].toString();
       final version = data['version'].toString();
       final buildDate = data['buildDate'].toString();
       final fingerprint = data['fingerprint'].toString();
@@ -2617,7 +2614,7 @@ class _AboutState extends State<_About> {
                       .marginSymmetric(vertical: 4.0)),
               InkWell(
                   onTap: () {
-                    launchUrlString('https://desk.zyphersecurity.com.br');
+                    launchUrlString('https://desk.zyphersecurity.com.br/privacidade');
                   },
                   child: Text(
                     'Declaração de privacidade',
@@ -2659,30 +2656,16 @@ class _AboutState extends State<_About> {
                   ],
                 ),
               ).marginSymmetric(vertical: 4.0),
-              // Avisos legais permanecem acessíveis conforme a AGPL-3.0.
+              // Resumo na interface; avisos completos e créditos acompanham o pacote.
               ExpansionTile(
-                title: const Text('Licenças e avisos legais'),
+                title: const Text('Licenciamento GNU AGPL-3.0'),
                 tilePadding: EdgeInsets.zero,
                 children: [
-                  SelectableText(
-                    'Este software contém código do projeto RustDesk, '
-                    'licenciado sob a GNU AGPL-3.0.\n'
-                    'Direitos autorais do código original: '
-                    'Purslane Tech Pte. Ltd. e demais contribuidores.\n'
-                    'A Zypher Security é responsável pelas modificações do ZypherDesk.\n'
-                    'A licença permite redistribuição e modificação de acordo com seus termos. '
-                    'O software é fornecido sem garantia, exceto quando expressamente acordada.\n'
-                    'Licença: $license',
+                  const SelectableText(
+                    'Este software inclui componentes licenciados sob a GNU AGPL-3.0. '
+                    'As condições completas e os avisos de direitos autorais '
+                    'constam no arquivo LICENCAS_E_AVISOS.txt que acompanha a distribuição.',
                   ).marginSymmetric(vertical: 6.0),
-                  InkWell(
-                    onTap: () {
-                      launchUrlString('https://github.com/rustdesk/rustdesk');
-                    },
-                    child: const Text(
-                      'Código-fonte do projeto original',
-                      style: TextStyle(decoration: TextDecoration.underline),
-                    ).marginSymmetric(vertical: 6.0),
-                  ),
                 ],
               )
             ],

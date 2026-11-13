@@ -1,0 +1,29 @@
+ZYPHERDESK — LICENÇAS E AVISOS DE DIREITOS AUTORAIS
+Versão da base: 1.5.3
+Zypher Security — https://desk.zyphersecurity.com.br
+Contato: contato@zyphersecurity.com.br
+
+Este aplicativo é uma versão modificada do projeto de código aberto RustDesk,
+sob os termos da GNU Affero General Public License, versão 3 (AGPL-3.0).
+
+As modificações e a identidade visual ZypherDesk pertencem aos seus respectivos
+titulares. Os direitos autorais sobre o código original permanecem com
+Purslane Tech Pte. Ltd. e demais contribuidores do projeto RustDesk.
+A Zypher Security não é a titular desses direitos originais.
+
+Licença integral: o arquivo LICENCA_AGPL-3.0.txt acompanha esta distribuição.
+Licença na internet: https://www.gnu.org/licenses/agpl-3.0.html
+Projeto de origem: https://github.com/rustdesk/rustdesk
+
+Para utilização e redistribuição conforme os termos da AGPL-3.0, é preciso
+assegurar que os destinatários tenham acesso ao código-fonte correspondente
+à versão efetivamente distribuída, incluindo todas as modificações aplicáveis.
+A disponibilização somente deste executável não substitui essa obrigação.
+O código-fonte correspondente e suas condições de acesso devem estar
+disponíveis aos destinatários conforme os requisitos da licença.
+
+Para solicitações relativas ao código-fonte do ZypherDesk, entre em contato:
+contato@zyphersecurity.com.br
+
+Este aplicativo é fornecido sem garantias, na extensão permitida pela licença
+e pela legislação aplicável, salvo garantias adicionais acordadas expressamente.
