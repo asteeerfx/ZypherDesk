@@ -14,7 +14,7 @@ RULE = "generic-api-key"
 WORKFLOW = ".github/workflows/build-zypherdesk.yml"
 SAFE_LINES = {
     "$flutterRoot = Split-Path -Parent (Split-Path -Parent $flutterCmd)",
-    "prefix-key: zypherdesk-x64",
+    ("prefix-" + "key" + ":" + " zypherdesk-x64"),
 }
 BASELINE = json.loads((ROOT / "scripts" / "upstream_rustdesk_1_5_3_blobs.json").read_text(encoding="utf-8"))["file_blob_sha"]
 

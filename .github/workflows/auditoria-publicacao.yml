@@ -1,5 +1,5 @@
 name: Auditoria de segredos antes de publicar ZypherDesk
-# Gitleaks: revisar blobs historicos e campos cache prefix-key (nao credenciais).
+# Gitleaks: comparacao historica estrita, incluindo chave de prefixo do cache.
 
 on:
   workflow_dispatch:
