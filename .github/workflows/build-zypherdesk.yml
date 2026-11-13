@@ -2,6 +2,16 @@ name: ZypherDesk Portable Windows x64
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-zypherdesk.yml'
+      - 'flutter/lib/common.dart'
+      - 'flutter/lib/desktop/pages/desktop_setting_page.dart'
+      - 'flutter/windows/runner/Runner.rc'
+      - 'libs/portable/**'
+      - 'scripts/**'
+      - 'assets/**'
 
 permissions:
   contents: read
