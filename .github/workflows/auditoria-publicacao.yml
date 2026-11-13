@@ -1,5 +1,5 @@
 name: Auditoria de segredos antes de publicar ZypherDesk
-# Gitleaks: comparacao historica estrita, incluindo chave de prefixo do cache.
+# Gitleaks: sha dos blobs e falsos positivos da auditoria vinculados aos commits.
 
 on:
   workflow_dispatch:

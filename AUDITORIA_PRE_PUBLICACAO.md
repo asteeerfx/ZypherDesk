@@ -31,3 +31,7 @@ A auditoria atualizada compara **cada detecção contra o SHA do arquivo no comm
 ### Último alerta histórico confirmado
 
 O alerta adicional foi apontado pelo Gitleaks no commit `020aa00d7c6d9c0835ae6aed98f28eabca440577`, linha 103 do workflow. Naquela revisão, a linha era um prefixo de cache estático de compilação (identificador `zypherdesk-x64`): trata-se **apenas do prefixo de cache de compilação**, não de uma chave de API. A linha 103 do workflow atual é diferente porque o arquivo mudou. A validação agora consulta o conteúdo do **commit indicado pela própria detecção**, em vez da linha no arquivo atual, evitando classificações incorretas.
+
+### Achados de texto da própria auditoria
+
+Ao documentar o exemplo de prefixo de cache, o Gitleaks registrou mais **2 correspondências** nos próprios arquivos de auditoria, introduzidas no commit `d2154fd53b707aba78aff660fd485853b50325ba` — uma no script e outra neste relatório. Ambas contêm apenas o exemplo já verificado de cache, sem credenciais. A política agora reconhece somente os hashes de blob e linhas exatas daquele commit, de forma que alterações futuras continuam sinalizadas.
