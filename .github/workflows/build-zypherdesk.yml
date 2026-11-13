@@ -1,1 +1,149 @@
+name: ZypherDesk Portable Windows x64
 
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  bridge:
+    # Reaproveita o gerador de bindings original do RustDesk 1.5.3.
+    uses: ./.github/workflows/bridge.yml
+
+  topmost-window:
+    # Dependencia nativa exigida pelo pipeline oficial do Windows.
+    uses: ./.github/workflows/third-party-RustDeskTempTopMostWindow.yml
+    with:
+      upload-artifact: true
+      target: windows-2022
+      configuration: Release
+      platform: x64
+      target_version: Windows10
+
+  windows-portable:
+    name: Compilar ZypherDesk x64
+    needs: [bridge, topmost-window]
+    runs-on: windows-2022
+    timeout-minutes: 180
+    env:
+      FLUTTER_VERSION: '3.24.5'
+      LLVM_VERSION: '15.0.6'
+      RUST_VERSION: '1.75'
+      VCPKG_COMMIT_ID: '9e593bb18ea69cc5095e012465dcd675a822ed0d'
+      VCPKG_BINARY_SOURCES: 'clear;x-gha,readwrite'
+      VCPKG_DEFAULT_HOST_TRIPLET: 'x64-windows-static'
+    steps:
+      - name: Habilitar cache vcpkg no Actions
+        uses: actions/github-script@v7
+        with:
+          script: |
+            core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
+            core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
+
+      - name: Baixar código RustDesk + submódulos
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          persist-credentials: false
+
+      - name: Aplicar identidade oficial Zypher Security, visual e aprovação manual
+        run: python scripts/personalizar.py .
+
+      - name: Restaurar bindings Flutter/Rust
+        uses: actions/download-artifact@v4
+        with:
+          name: bridge-artifact
+          path: ./
+
+      - name: Instalar LLVM 15.0.6
+        uses: KyleMayes/install-llvm-action@v2
+        with:
+          version: '15.0.6'
+
+      - name: Preparar Flutter 3.24.5
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: '3.24.5'
+          architecture: x64
+
+      - name: Instalar engine Flutter personalizado do RustDesk
+        shell: pwsh
+        run: |
+          flutter doctor -v
+          flutter precache --windows
+          Invoke-WebRequest -Uri 'https://github.com/rustdesk/engine/releases/download/main/windows-x64-release.zip' -OutFile 'windows-x64-release.zip'
+          Expand-Archive -Path 'windows-x64-release.zip' -DestinationPath 'windows-x64-release'
+          $flutterCmd = (Get-Command flutter).Source
+          $flutterRoot = Split-Path -Parent (Split-Path -Parent $flutterCmd)
+          $engine = Join-Path $flutterRoot 'bin/cache/artifacts/engine/windows-x64-release'
+          if (-not (Test-Path $engine)) { throw "Engine Flutter ausente: $engine" }
+          Copy-Item 'windows-x64-release/*' $engine -Recurse -Force
+
+      - name: Aplicar compatibilidade Flutter ao dropdown
+        shell: bash
+        run: |
+          FLUTTER_HOME="$(dirname "$(dirname "$(command -v flutter)")")"
+          cp .github/patches/flutter_3.24.4_dropdown_menu_enableFilter.diff "$FLUTTER_HOME/"
+          cd "$FLUTTER_HOME"
+          git apply flutter_3.24.4_dropdown_menu_enableFilter.diff
+
+      - name: Instalar Rust 1.75 para MSVC
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: '1.75'
+          targets: x86_64-pc-windows-msvc
+          components: rustfmt
+
+      - name: Cache de compilação Rust
+        uses: Swatinem/rust-cache@v2
+        with:
+          prefix-key: zypherdesk-x64
+
+      - name: Preparar vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgDirectory: 'C:\vcpkg'
+          vcpkgGitCommitId: '9e593bb18ea69cc5095e012465dcd675a822ed0d'
+          doNotCache: false
+
+      - name: Instalar bibliotecas C/C++ da aplicação
+        shell: bash
+        run: |
+          "$VCPKG_ROOT/vcpkg" install --triplet x64-windows-static --x-install-root="$VCPKG_ROOT/installed"
+
+      - name: Compilar RustDesk modificado como ZypherDesk
+        shell: pwsh
+        run: |
+          python .\build.py --portable --flutter --skip-portable-pack --hwcodec --vram
+          if ($LASTEXITCODE -ne 0) { throw 'Falha ao compilar ZypherDesk' }
+          if (-not (Test-Path '.\flutter\build\windows\x64\runner\Release\rustdesk.exe')) { throw 'Executável principal não encontrado' }
+          Copy-Item '.\flutter\build\windows\x64\runner\Release' '.\rustdesk' -Recurse -Force
+
+      - name: Restaurar utilitário de janela no pacote
+        uses: actions/download-artifact@v4
+        with:
+          name: topmostwindow-artifacts-x64
+          path: ./rustdesk
+
+      - name: Empacotar em um único EXE portátil autoextraível
+        shell: bash
+        run: |
+          sed -i '/dpiAware/d' res/manifest.xml
+          pushd libs/portable
+          python -m pip install -r requirements.txt
+          python generate.py -f ../../rustdesk/ -o . -e ../../rustdesk/rustdesk.exe
+          popd
+          test -f target/release/rustdesk-portable-packer.exe
+          mkdir -p saida
+          cp target/release/rustdesk-portable-packer.exe saida/ZypherDesk-Portable-1.5.3-x64.exe
+
+      - name: Publicar ZIP com o executável portátil
+        uses: actions/upload-artifact@v4
+        with:
+          name: ZypherDesk-Portable-1.5.3-Windows-x64
+          path: saida/ZypherDesk-Portable-1.5.3-x64.exe
+          if-no-files-found: error
+          retention-days: 30
