@@ -3786,7 +3786,7 @@ Widget loadPowered(BuildContext context) {
       child: Opacity(
           opacity: 0.5,
           child: Text(
-            'Desenvolvido por Zypher Security',
+            'Desenvolvido por ZypherSecurity',
             overflow: TextOverflow.clip,
             style: Theme.of(context)
                 .textTheme
