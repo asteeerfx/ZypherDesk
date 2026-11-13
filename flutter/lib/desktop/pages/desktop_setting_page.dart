@@ -2644,34 +2644,47 @@ class _AboutState extends State<_About> {
                       .marginSymmetric(vertical: 4.0)),
               Container(
                 decoration: const BoxDecoration(color: Color(0xFF103B54)),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 24, horizontal: 8),
-                child: SelectionArea(
-                    child: Row(
+                padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '© ${DateTime.now().year} Zypher Security.\n'
-                            'Baseado no RustDesk (AGPL-3.0).\n'
-                            'Direitos autorais do código original: Purslane Tech Pte. Ltd.\n'
-                            '$license',
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                          Text(
-                            'Suporte remoto com autorização do cliente.',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w800,
-                                color: Colors.white),
-                          )
-                        ],
-                      ),
+                    Text(
+                      '© ${DateTime.now().year} Zypher Security',
+                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+                    ),
+                    const Text(
+                      'Suporte remoto com autorização do cliente.',
+                      style: TextStyle(color: Colors.white),
                     ),
                   ],
-                )),
-              ).marginSymmetric(vertical: 4.0)
+                ),
+              ).marginSymmetric(vertical: 4.0),
+              // Avisos legais permanecem acessíveis conforme a AGPL-3.0.
+              ExpansionTile(
+                title: const Text('Licenças e avisos legais'),
+                tilePadding: EdgeInsets.zero,
+                children: [
+                  SelectableText(
+                    'Este software contém código do projeto RustDesk, '
+                    'licenciado sob a GNU AGPL-3.0.\n'
+                    'Direitos autorais do código original: '
+                    'Purslane Tech Pte. Ltd. e demais contribuidores.\n'
+                    'A Zypher Security é responsável pelas modificações do ZypherDesk.\n'
+                    'A licença permite redistribuição e modificação de acordo com seus termos. '
+                    'O software é fornecido sem garantia, exceto quando expressamente acordada.\n'
+                    'Licença: $license',
+                  ).marginSymmetric(vertical: 6.0),
+                  InkWell(
+                    onTap: () {
+                      launchUrlString('https://github.com/rustdesk/rustdesk');
+                    },
+                    child: const Text(
+                      'Código-fonte do projeto original',
+                      style: TextStyle(decoration: TextDecoration.underline),
+                    ).marginSymmetric(vertical: 6.0),
+                  ),
+                ],
+              )
             ],
           ).marginOnly(left: _kContentHMargin)
         ]),
