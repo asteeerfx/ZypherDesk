@@ -93,7 +93,7 @@ BEGIN
             VALUE "FileDescription", "ZypherDesk - Suporte Remoto" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "ZypherDesk" "\0"
-            VALUE "LegalCopyright", "Copyright © 2026 Purslane Tech Pte. Ltd. All rights reserved." "\0"
+            VALUE "LegalCopyright", "© 2026 Zypher Security (modificacoes). Partes originais © Purslane Tech Pte. Ltd. (AGPL-3.0)." "\0"
             VALUE "OriginalFilename", "ZypherDesk.exe" "\0"
             VALUE "ProductName", "ZypherDesk" "\0"
             VALUE "Comments", "ZypherDesk e um fork AGPL-3.0 do RustDesk: github.com/rustdesk/rustdesk" "\0"
