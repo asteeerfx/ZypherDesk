@@ -30,7 +30,7 @@ CHECKS = {
         'contato@zyphersecurity.com.br',
     ],
     "LICENCAS_E_AVISOS.txt": [
-        "GNU AGPL-3.0",
+        "AGPL-3.0",
         "RustDesk",
     ],
     "flutter/lib/desktop/pages/desktop_home_page.dart": [
