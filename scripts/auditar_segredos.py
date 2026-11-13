@@ -59,8 +59,8 @@ def main() -> int:
     print(f"Alertas NOVOS ou nao classificados: {len(bad)}.")
     if bad:
         for finding, category in bad[:25]:
-            # Nunca exibir o valor sinalizado: somente caminho, linha e regra.
-            print(f"PENDENTE: {finding.get('File','?')}:{finding.get('StartLine','?')} | {finding.get('RuleID','?')} | {category}")
+            # Nunca exibir o valor sinalizado: somente caminho, linha, regra e commit.
+            print(f"PENDENTE: {finding.get('File','?')}:{finding.get('StartLine','?')} | {finding.get('RuleID','?')} | {category} | commit {finding.get('Commit','?')}")
     summary = os.environ.get("GITHUB_STEP_SUMMARY")
     if summary:
         with open(summary, "a", encoding="utf-8") as f:
