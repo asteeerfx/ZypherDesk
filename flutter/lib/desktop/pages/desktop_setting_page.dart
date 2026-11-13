@@ -213,7 +213,7 @@ class _DesktopSettingPageState extends State<DesktopSettingPage>
           break;
         case SettingsTabKey.about:
           settingTabs
-              .add(_TabInfo(tab, 'About', Icons.info_outline, Icons.info));
+              .add(_TabInfo(tab, 'Sobre o ZypherDesk', Icons.info_outline, Icons.info));
           break;
       }
     }
@@ -2595,7 +2595,7 @@ class _AboutState extends State<_About> {
       final scrollController = ScrollController();
       return SingleChildScrollView(
         controller: scrollController,
-        child: _Card(title: translate('About RustDesk'), children: [
+        child: _Card(title: 'Sobre o ZypherDesk', children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -2603,10 +2603,10 @@ class _AboutState extends State<_About> {
                 height: 8.0,
               ),
               SelectionArea(
-                  child: Text('${translate('Version')}: $version')
+                  child: Text('ZypherDesk — versão: $version')
                       .marginSymmetric(vertical: 4.0)),
               SelectionArea(
-                  child: Text('${translate('Build Date')}: $buildDate')
+                  child: Text('Data da compilação: $buildDate')
                       .marginSymmetric(vertical: 4.0)),
               if (!isWeb)
                 SelectionArea(
@@ -2617,22 +2617,33 @@ class _AboutState extends State<_About> {
                       .marginSymmetric(vertical: 4.0)),
               InkWell(
                   onTap: () {
-                    launchUrlString('https://rustdesk.com/privacy.html');
+                    launchUrlString('https://desk.zyphersecurity.com.br');
                   },
                   child: Text(
-                    translate('Privacy Statement'),
+                    'Declaração de privacidade',
                     style: linkStyle,
                   ).marginSymmetric(vertical: 4.0)),
               InkWell(
                   onTap: () {
-                    launchUrlString('https://rustdesk.com');
+                    launchUrlString('https://desk.zyphersecurity.com.br');
                   },
                   child: Text(
-                    translate('Website'),
+                    'Website: desk.zyphersecurity.com.br',
                     style: linkStyle,
                   ).marginSymmetric(vertical: 4.0)),
+              InkWell(
+                  onTap: () {
+                    launchUrlString('mailto:contato@zyphersecurity.com.br');
+                  },
+                  child: Text(
+                    'Contato: contato@zyphersecurity.com.br',
+                    style: linkStyle,
+                  ).marginSymmetric(vertical: 4.0)),
+              SelectionArea(
+                  child: const Text('Desenvolvido por Zypher Security')
+                      .marginSymmetric(vertical: 4.0)),
               Container(
-                decoration: const BoxDecoration(color: Color(0xFF2c8cff)),
+                decoration: const BoxDecoration(color: Color(0xFF103B54)),
                 padding:
                     const EdgeInsets.symmetric(vertical: 24, horizontal: 8),
                 child: SelectionArea(
@@ -2643,11 +2654,14 @@ class _AboutState extends State<_About> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Copyright © ${DateTime.now().toString().substring(0, 4)} Purslane Tech Pte. Ltd.\n$license',
+                            '© ${DateTime.now().year} Zypher Security.\n'
+                            'Baseado no RustDesk (AGPL-3.0).\n'
+                            'Direitos autorais do código original: Purslane Tech Pte. Ltd.\n'
+                            '$license',
                             style: const TextStyle(color: Colors.white),
                           ),
                           Text(
-                            translate('Slogan_tip'),
+                            'Suporte remoto com autorização do cliente.',
                             style: TextStyle(
                                 fontWeight: FontWeight.w800,
                                 color: Colors.white),
