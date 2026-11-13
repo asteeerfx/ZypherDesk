@@ -61,7 +61,7 @@ def apply(repo):
     replace_once(rc,
        'VALUE "ProductName", "ZypherDesk" "\\0"',
        'VALUE "ProductName", "ZypherDesk" "\\0"\n'
-       '            VALUE "Comments", "ZypherDesk e um fork AGPL-3.0 do RustDesk: github.com/rustdesk/rustdesk" "\\0"',
+       '            VALUE "Comments", "ZypherDesk - Suporte Remoto | desk.zyphersecurity.com.br" "\\0"',
        'Credito do upstream')
     replace_once(repo/'flutter/lib/desktop/pages/desktop_home_page.dart',
        'const borderColor = Color(0xFF2F65BA);',
