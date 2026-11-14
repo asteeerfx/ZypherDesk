@@ -126,6 +126,32 @@ pub fn global_init() -> bool {
     if hbb_common::config::Config::get_option("approve-mode").is_empty() {
         hbb_common::config::Config::set_option("approve-mode".to_owned(), "click".to_owned());
     }
+    // ZypherDesk Windows: preconfigure the self-hosted ID/relay server for clean
+    // installs. Respect a different custom server explicitly chosen by the user.
+    // Keep this before services/mediator start so incoming and outgoing use it.
+    #[cfg(target_os = "windows")]
+    {
+        const ID_SERVER: &str = "146.235.28.27";
+        const RELAY_SERVER: &str = "146.235.28.27:21117";
+        const SERVER_KEY: &str = "aDuttNVFrRO5VbOq4dvuCVvJzodCGXsTdrzheaVwcaw=";
+
+        let configured_server =
+            hbb_common::config::Config::get_option("custom-rendezvous-server");
+        if configured_server.is_empty() || configured_server == ID_SERVER {
+            for (option, value) in [
+                ("custom-rendezvous-server", ID_SERVER),
+                ("relay-server", RELAY_SERVER),
+                ("key", SERVER_KEY),
+            ] {
+                if hbb_common::config::Config::get_option(option) != value {
+                    hbb_common::config::Config::set_option(
+                        option.to_owned(),
+                        value.to_owned(),
+                    );
+                }
+            }
+        }
+    }
     #[cfg(all(target_os = "linux", feature = "drm"))]
     crate::platform::linux::dispatch_wayland_display_probe();
     #[cfg(target_os = "linux")]
