@@ -7,6 +7,7 @@ on:
     paths:
       - '.github/workflows/build-zypherdesk.yml'
       - 'flutter/lib/common.dart'
+      - 'src/common.rs'
       - 'flutter/lib/desktop/pages/desktop_setting_page.dart'
       - 'flutter/windows/runner/Runner.rc'
       - 'libs/portable/**'
